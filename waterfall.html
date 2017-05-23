@@ -5,19 +5,17 @@
 	<title>Waterfall Charts</title>    
 	
 	<link class="include" rel="stylesheet" type="text/css" href="./waterfall_files/jqplot/jquery.jqplot.min.css">
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/jquery.min.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/jquery.jqplot.min.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/download.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/jquery.min.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/jquery.jqplot.min.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/download.js"></script>
 	
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.barRenderer.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.canvasTextRenderer.js"></script>
-	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.pointLabels.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.barRenderer.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.canvasTextRenderer.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.canvasOverlay.js"></script>
+	<script class="include" type="text/javascript" src="waterfall_files/jqplot/plugins/jqplot.pointLabels.js"></script>
 
-
-
-	
 <style>
     body
     {
@@ -41,6 +39,10 @@
 	<textarea cols="40" rows="5" name="ticks" id="ticks">['start', '1', '2', '3', '4', '5']</textarea><br>
 	Farben (Zyklus):<br>
 	<textarea cols="40" rows="5" name="colours" id="colours">['red', 'green', 'black', '#ffa500']</textarea><br>
+	Farbe (Gestrichelte Linien):<br>
+	<input type="text" name="colourLines" id="colourLines" value="'#999999'" /><br>
+	Zeiche gestrichtelte Linien:<br>
+	<input type="checkbox" name="enableColourLines" id="enableColourLines" checked /><br>
 	Name:<br>
 	<input type="text" name="name" id="name" value="Plot" /><br>
 	<br>
@@ -64,15 +66,44 @@
 
 
 function plotData() {
-	plot($('#width').val(), $('#height').val(), eval($('#line').val()), eval($('#ticks').val()), eval($('#colours').val()), $('#name').val());
+	plot($('#width').val(),
+		$('#height').val(),
+		eval($('#line').val()),
+		eval($('#ticks').val()),
+		eval($('#colours').val()),
+		eval($('#grid').val()),
+		eval($('#colourLines').val()),
+		$('#enableColourLines').is(':checked'),
+		$('#name').val());
 }
 
 function downloadPicture(name) {
 	$("#chartdiv").jqplotSaveImage2(name + ".png");
 }
 
-function plot(width, height, line, ticks, colours, name) {
+function plot(width, height, line, ticks, colours, grid, colourLines, enableColourLines, name) {
 	$("#content").html('<div id="chartdiv" style="height:' + height + 'px;width:' + width + 'px; "></div>');
+	
+	var overlayLines = []
+	
+	if (enableColourLines) {
+		curY = 0;
+		line.forEach(function(entry) {
+			curY += entry;
+			overlayLines.push(
+				{
+					dashedHorizontalLine: {
+						yaxis: 'y2axis',
+						y: curY,
+						lineWidth: 1,
+						color: colourLines,
+						shadow: false
+					}
+				}
+			);
+		});
+	}
+	
     var plot1 = $.jqplot('chartdiv', [line], {
         title: name,
 		seriesColors: colours,
@@ -81,7 +112,7 @@ function plot(width, height, line, ticks, colours, name) {
             rendererOptions:{
                 waterfall:true,
                 varyBarColor: true,
-                useNegativeColors: false
+                useNegativeColors: false,
             },
             pointLabels: {
                 hideZeros: true
@@ -91,7 +122,7 @@ function plot(width, height, line, ticks, colours, name) {
         axes:{
             xaxis:{
                 renderer:$.jqplot.CategoryAxisRenderer, 
-                ticks:ticks,
+                ticks: ticks,
                 tickRenderer: $.jqplot.CanvasAxisTickRenderer,
                 tickOptions: {
                     angle: -90,
@@ -101,9 +132,14 @@ function plot(width, height, line, ticks, colours, name) {
                 }
             },
             y2axis: {
-                min: 0,
-                tickInterval: 5
             }
+        },
+		grid: {
+			background: '#ffffff'
+		},
+		canvasOverlay: {
+            show: true,
+            objects: overlayLines
         }
     });
 	$("#content").append('<button onclick="downloadPicture(\'' + name + '\')">Download</button>');
