@@ -2,16 +2,21 @@
 <!-- saved from url=(0057)http://www.jqplot.com/deploy/dist/examples/waterfall.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 	
-	<title>Waterfall Charts</title>
-
-    <link class="include" rel="stylesheet" type="text/css" href="./waterfall_files/jquery.jqplot.min.css">
-    <link rel="stylesheet" type="text/css" href="./waterfall_files/examples.min.css">
-    <link type="text/css" rel="stylesheet" href="./waterfall_files/shCoreDefault.min.css">
-    <link type="text/css" rel="stylesheet" href="./waterfall_files/shThemejqPlot.min.css">
-  
-  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
-    <script class="include" type="text/javascript" src="./waterfall_files/jquery.min.js.Download"></script>
+	<title>Waterfall Charts</title>    
+	
+	<link class="include" rel="stylesheet" type="text/css" href="./waterfall_files/jqplot/jquery.jqplot.min.css">
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/jquery.min.js"></script>
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/jquery.jqplot.min.js"></script>
 	<script class="include" type="text/javascript" src="./waterfall_files/download.js"></script>
+	
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.barRenderer.js"></script>
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.canvasTextRenderer.js"></script>
+	<script class="include" type="text/javascript" src="./waterfall_files/jqplot/plugins/jqplot.pointLabels.js"></script>
+
+
+
 	
 <style>
     body
@@ -104,29 +109,5 @@ function plot(width, height, line, ticks, colours, name) {
 	$("#content").append('<button onclick="downloadPicture(\'' + name + '\')">Download</button>');
 }
 </script>
-
-<!-- End example scripts -->
-
-<!-- Don't touch this! -->
-
-
-<script class="include" type="text/javascript" src="./waterfall_files/jquery.jqplot.min.js.Download"></script>
-<script type="text/javascript" src="./waterfall_files/shCore.min.js.Download"></script>
-<script type="text/javascript" src="./waterfall_files/shBrushJScript.min.js.Download"></script>
-<script type="text/javascript" src="./waterfall_files/shBrushXml.min.js.Download"></script>
-<!-- End Don't touch this! -->
-
-<!-- Additional plugins go here -->
-<script class="include" type="text/javascript" src="./waterfall_files/jqplot.barRenderer.min.js.Download"></script>
-<script class="include" type="text/javascript" src="./waterfall_files/jqplot.categoryAxisRenderer.min.js.Download"></script>
-<script class="include" type="text/javascript" src="./waterfall_files/jqplot.canvasAxisTickRenderer.min.js.Download"></script>
-<script class="include" type="text/javascript" src="./waterfall_files/jqplot.canvasTextRenderer.min.js.Download"></script>
-<script class="include" type="text/javascript" src="./waterfall_files/jqplot.pointLabels.min.js.Download"></script>
-
-<!-- End additional plugins -->
-
-
-
-
 
 </body></html>
