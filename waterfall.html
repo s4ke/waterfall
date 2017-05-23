@@ -40,7 +40,7 @@
 	Farben (Zyklus):<br>
 	<textarea cols="40" rows="5" name="colours" id="colours">['red', 'green', 'black', '#ffa500']</textarea><br>
 	Farbe (Gestrichelte Linien):<br>
-	<input type="text" name="colourLines" id="colourLines" value="'#999999'" /><br>
+	<input type="text" name="colourLines" id="colourLines" value="#999999" /><br>
 	Zeichne gestrichtelte Linien:<br>
 	<input type="checkbox" name="enableColourLines" id="enableColourLines" checked /><br>
 	Name:<br>
@@ -72,7 +72,7 @@ function plotData() {
 		eval($('#ticks').val()),
 		eval($('#colours').val()),
 		eval($('#grid').val()),
-		eval($('#colourLines').val()),
+		$('#colourLines').val(),
 		$('#enableColourLines').is(':checked'),
 		$('#name').val());
 }
