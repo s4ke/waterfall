@@ -34,6 +34,8 @@
 	<textarea cols="40" rows="5" name="line" id="line">[15, -3, -3 , -3, -3, -3]</textarea><br>
 	Beschriftungen:<br>
 	<textarea cols="40" rows="5" name="ticks" id="ticks">['start', '1', '2', '3', '4', '5']</textarea><br>
+	Farben (Zyklus):<br>
+	<textarea cols="40" rows="5" name="colours" id="colours">['red', 'green', 'black', '#ffa500']</textarea><br>
 	Name:<br>
 	<input type="text" name="name" id="name" value="Plot" /><br>
 	<br>
@@ -57,22 +59,24 @@
 
 
 function plotData() {
-	plot($('#width').val(), $('#height').val(), eval($('#line').val()), eval($('#ticks').val()), $('#name').val());
+	plot($('#width').val(), $('#height').val(), eval($('#line').val()), eval($('#ticks').val()), eval($('#colours').val()), $('#name').val());
 }
 
 function downloadPicture(name) {
 	$("#chartdiv").jqplotSaveImage2(name + ".png");
 }
 
-function plot(width, height, line, ticks, name) {
+function plot(width, height, line, ticks, colours, name) {
 	$("#content").html('<div id="chartdiv" style="height:' + height + 'px;width:' + width + 'px; "></div>');
     var plot1 = $.jqplot('chartdiv', [line], {
         title: name,
+		seriesColors: colours,
         seriesDefaults:{
             renderer:$.jqplot.BarRenderer, 
             rendererOptions:{
                 waterfall:true,
-                varyBarColor: true
+                varyBarColor: true,
+                useNegativeColors: false
             },
             pointLabels: {
                 hideZeros: true
